@@ -8,24 +8,22 @@ import {
   useDisclosure,
   Text,
   Container,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
-  Input,
   Button,
   Stack,
-  DarkMode,
-  Box
+  Box,
+  useToast
 } from '@chakra-ui/react'
 import Head from 'next/head'
 import Image from 'next/image'
+import { Formik, Form } from 'formik'
+import * as yup from 'yup'
 
-// ('')
+import FrmControl from '../components/FormControlDark'
 
 const Home: React.FC = () => {
   const { isOpen, onOpen } = useDisclosure()
   const { isOpen: isOpenFrm, onOpen: onOpenFrm } = useDisclosure()
+  const toast = useToast()
 
   useEffect(() => {
     setTimeout(onOpen, 200)
@@ -68,30 +66,67 @@ const Home: React.FC = () => {
                     width={220}
                     height={30}
                   />
-                  <FormControl id="username" mt="1.5em" isRequired>
-                    <FormLabel>Usuário</FormLabel>
-                    <Input type="text" max={20} placeholder="username" />
 
-                    <FormHelperText fontStyle="italic" color="whitesmoke">
-                      Informe seu usuário de acesso
-                    </FormHelperText>
-                  </FormControl>
+                  <Formik
+                    initialValues={{ username: '', password: '' }}
+                    validationSchema={yup
+                      .object({
+                        username: yup
+                          .string()
+                          .required('Campo obrigatório')
+                          .min(3, 'Digite ao menos 3 caracteres'),
+                        password: yup
+                          .string()
+                          .required('Campo obrigatório')
+                          .min(3, 'Digite ao menos 3 caracteres')
+                      })
+                      .defined()}
+                    onSubmit={(values, actions) => {
+                      setTimeout(() => {
+                        // alert(JSON.stringify(values, null, 2))
 
-                  <FormControl id="password" my="1.5em" isRequired>
-                    <FormLabel>Senha</FormLabel>
-                    <Input type="password" max={20} placeholder="*********" />
-                    <FormHelperText fontStyle="italic" color="whitesmoke">
-                      Preencha com sua senha
-                    </FormHelperText>
+                        toast({
+                          position: 'top-right',
+                          title: 'Erro de autenticação.',
+                          description: 'Usuário e/ou senha inválidos',
+                          status: 'error',
+                          duration: 4000,
+                          isClosable: true
+                        })
 
-                    <FormErrorMessage>Teste teste teste</FormErrorMessage>
-                  </FormControl>
+                        actions.setSubmitting(false)
+                      }, 1000)
+                    }}
+                  >
+                    {({ isSubmitting }) => (
+                      <Form>
+                        <FrmControl
+                          name="username"
+                          label="Usuário"
+                          placeholder="meu usuário"
+                          helperText="Informe seu usuário de acesso"
+                        />
 
-                  <Stack>
-                    <Button minW="120px" colorScheme="green">
-                      Entrar
-                    </Button>
-                  </Stack>
+                        <FrmControl
+                          name="password"
+                          label="Senha"
+                          placeholder="******"
+                          helperText="Preencha com sua senha"
+                        />
+
+                        <Stack>
+                          <Button
+                            minW="120px"
+                            colorScheme="green"
+                            isLoading={isSubmitting}
+                            type="submit"
+                          >
+                            Entrar
+                          </Button>
+                        </Stack>
+                      </Form>
+                    )}
+                  </Formik>
                 </SlideFade>
               </Container>
             </Center>
