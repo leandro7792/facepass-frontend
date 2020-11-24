@@ -15,13 +15,16 @@ import {
 } from '@chakra-ui/react'
 import Head from 'next/head'
 import Image from 'next/image'
+import Router from 'next/router'
 import { Formik, Form } from 'formik'
 import * as yup from 'yup'
+import { AxiosError } from 'axios'
 
-import FrmControl from '../components/FormControlDark'
+import FrmControl from '../components/form/FormControlDark'
+import { authenticate } from '../services/auth'
 
 const Home: React.FC = () => {
-  const { isOpen, onOpen } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const { isOpen: isOpenFrm, onOpen: onOpenFrm } = useDisclosure()
   const toast = useToast()
 
@@ -31,7 +34,7 @@ const Home: React.FC = () => {
   }, [])
 
   return (
-    <Box bg="gray.300">
+    <Box>
       <Head>
         <title>LetMeIn - Momentum</title>
       </Head>
@@ -81,21 +84,40 @@ const Home: React.FC = () => {
                           .min(3, 'Digite ao menos 3 caracteres')
                       })
                       .defined()}
-                    onSubmit={(values, actions) => {
-                      setTimeout(() => {
-                        // alert(JSON.stringify(values, null, 2))
+                    onSubmit={async ({ username, password }, actions) => {
+                      try {
+                        const data = await authenticate({ username, password })
+
+                        onClose()
 
                         toast({
                           position: 'top-right',
-                          title: 'Erro de autenticação.',
-                          description: 'Usuário e/ou senha inválidos',
-                          status: 'error',
-                          duration: 4000,
+                          title: `Bem vindo ${data.username}`,
+                          status: 'success',
+                          duration: 3000,
                           isClosable: true
                         })
 
+                        setTimeout(() => Router.push('/auth/dashboard'), 400)
+                      } catch (error) {
+                        console.log(error)
+                        if (error as AxiosError) {
+                          const err: AxiosError = error
+
+                          if (err.response?.status === 401) {
+                            toast({
+                              position: 'top-right',
+                              title: 'Erro de autenticação.',
+                              description: 'Usuário e/ou senha inválido(s)',
+                              status: 'error',
+                              duration: 3000,
+                              isClosable: true
+                            })
+                          }
+                        }
+
                         actions.setSubmitting(false)
-                      }, 1000)
+                      }
                     }}
                   >
                     {({ isSubmitting }) => (
