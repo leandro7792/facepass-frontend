@@ -19,6 +19,7 @@ import Image from 'next/image'
 import NextLink from 'next/link'
 import { useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
+import NProgress from 'nprogress'
 
 const MyHeader: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()

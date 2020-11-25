@@ -5,21 +5,37 @@ import {
   SimpleGrid,
   Box,
   Text,
-  Center
+  Center,
+  useToken
 } from '@chakra-ui/react'
 import Head from 'next/head'
+import Link from 'next/link'
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 // import useSWR from 'swr'
 // import api from '../../services/api'
 
 // const fetcher = (url: string) => api.delete(url).then(resp => resp.data)
+const MotionBox = motion.custom(Box)
 
-function Feature({ title, desc, ...rest }) {
+function Feature({ title, desc, href, ...rest }) {
+  const [blue500, gray100] = useToken('colors', ['blue.500', 'gray.100'])
   return (
-    <Box p={5} shadow="md" height="180px" borderWidth="1px" {...rest}>
-      <Heading fontSize="xl">{title}</Heading>
-      <Text mt={4}>{desc}</Text>
-    </Box>
+    <Link href={href}>
+      <MotionBox
+        whileHover={{ scale: 1.05, backgroundColor: blue500, color: gray100 }}
+        whileTap={{ scale: 0.95 }}
+        p={5}
+        shadow="md"
+        minH="12em"
+        borderWidth="1px"
+        cursor="pointer"
+        {...rest}
+      >
+        <Heading fontSize="xl">{title}</Heading>
+        <Text mt={4}>{desc}</Text>
+      </MotionBox>
+    </Link>
   )
 }
 
@@ -46,20 +62,26 @@ const Dashboard: React.FC = () => {
         </Center>
       </Skeleton>
 
-      <SimpleGrid minChildWidth="120px" spacing="1em">
+      <SimpleGrid minChildWidth="12em" spacing="1em">
         <Skeleton isLoaded={isLoaded}>
           <Feature
             title="Clubes"
             desc="Administre os clubes cadastrados na plataforma"
+            href="/auth/clubs"
           />
         </Skeleton>
         <Skeleton isLoaded={isLoaded}>
-          <Feature title="Totens" desc="Verificar o status dos equipamentos" />
+          <Feature
+            title="Totens"
+            desc="Verificar o status dos equipamentos"
+            href="/auth/totens"
+          />
         </Skeleton>
         <Skeleton isLoaded={isLoaded}>
           <Feature
             title="Associados"
             desc="Verifique o cadastro global de todos associados"
+            href="/auth/associated"
           />
         </Skeleton>
       </SimpleGrid>
