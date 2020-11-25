@@ -10,7 +10,6 @@ import {
   Container,
   Button,
   Stack,
-  Box,
   useToast
 } from '@chakra-ui/react'
 import Head from 'next/head'
@@ -29,12 +28,21 @@ const Home: React.FC = () => {
   const toast = useToast()
 
   useEffect(() => {
-    setTimeout(onOpen, 200)
+    onOpen()
+
     setTimeout(onOpenFrm, 600)
+
+    const handleChangePage = () => onClose()
+
+    Router.events.on('routeChangeStart', handleChangePage)
+
+    return () => {
+      Router.events.off('routeChangeStart', handleChangePage)
+    }
   }, [])
 
   return (
-    <Box>
+    <>
       <Head>
         <title>LetMeIn - Momentum</title>
       </Head>
@@ -43,7 +51,6 @@ const Home: React.FC = () => {
         <Flex minH="100vh">
           <SimpleGrid
             as="main"
-            borderWidth="1px"
             borderRadius="sm"
             margin={['2em', '2.5em', '3.5em', '4em']}
             columns={[1, 1, 2]}
@@ -86,25 +93,22 @@ const Home: React.FC = () => {
                       .defined()}
                     onSubmit={async ({ username, password }, actions) => {
                       try {
-                        const data = await authenticate({ username, password })
-
-                        onClose()
+                        await authenticate({ username, password })
 
                         toast({
                           position: 'top-right',
-                          title: `Bem vindo ${data.username}`,
+                          title: `Bem vindo ${username}`,
                           status: 'success',
                           duration: 3000,
                           isClosable: true
                         })
 
-                        setTimeout(() => Router.push('/auth/dashboard'), 400)
+                        Router.push('/auth/dashboard')
                       } catch (error) {
-                        console.log(error)
-                        if (error as AxiosError) {
-                          const err: AxiosError = error
+                        if (error.isAxiosError) {
+                          const err = error as AxiosError
 
-                          if (err.response?.status === 401) {
+                          if (err.response.status === 401) {
                             toast({
                               position: 'top-right',
                               title: 'Erro de autenticação.',
@@ -155,7 +159,7 @@ const Home: React.FC = () => {
           </SimpleGrid>
         </Flex>
       </ScaleFade>
-    </Box>
+    </>
   )
 }
 

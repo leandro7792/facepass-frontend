@@ -1,11 +1,11 @@
 import { AppProps } from 'next/app'
 import { ChakraProvider, extendTheme, CSSReset } from '@chakra-ui/react'
-import AuthProvider from './_authProvider'
+import MainLayout from '../components/main'
 
 const theme = extendTheme({
   styles: {
     global: {
-      'html, body': {
+      body: {
         backgroundColor: 'gray.300',
         fontFamily: 'sans-serif'
       }
@@ -13,7 +13,18 @@ const theme = extendTheme({
   }
 })
 
-const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
+const MyApp: React.FC<AppProps> = ({ Component, pageProps, router }) => {
+  if (router.pathname.startsWith('/auth/')) {
+    return (
+      <ChakraProvider theme={theme}>
+        <CSSReset />
+        <MainLayout>
+          <Component {...pageProps} />
+        </MainLayout>
+      </ChakraProvider>
+    )
+  }
+
   return (
     <ChakraProvider theme={theme}>
       <CSSReset />

@@ -16,14 +16,14 @@ export const authenticate = async ({
   username,
   password
 }: IAuthenticate): Promise<IResponse> => {
-  const data = await api.post<IResponse>('auth', {
+  const { data } = await api.post<IResponse>('auth', {
     username,
     password
   })
 
-  CookieAuth.set(data.data)
+  CookieAuth.set(data)
 
-  return data.data
+  return data
 }
 
 export const logoff = (): void => {

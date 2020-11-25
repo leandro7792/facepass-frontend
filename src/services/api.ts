@@ -36,18 +36,16 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   (response: AxiosResponse) => response,
   async (error: AxiosError): Promise<AxiosError> => {
-    try {
-      const authFail = error?.response?.status === 401
-      const protectedRoute = !BackendUnprotected.includes(
-        error.response.config.url
-      )
+    const authFail = error?.response?.status === 401
+    const isProtectedRouteApi = !BackendUnprotected.includes(
+      error.response.config.url
+    )
 
-      if (authFail && protectedRoute) {
-        await redirect()
-      }
-    } catch {
-      return Promise.reject(error)
+    if (authFail && isProtectedRouteApi) {
+      await redirect()
     }
+
+    return Promise.reject(error)
   }
 )
 
