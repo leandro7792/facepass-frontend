@@ -73,9 +73,9 @@ const MyHeader: React.FC = () => {
 
                 <NextLink href="/auth/clubs">Clubes</NextLink>
 
-                <NextLink href="/auth/totems">Totens</NextLink>
+                <NextLink href="/auth/totens">Totens</NextLink>
 
-                <NextLink href="/auth/users">Usuários</NextLink>
+                <NextLink href="/auth/associates">Associados</NextLink>
               </VStack>
             </DrawerBody>
 

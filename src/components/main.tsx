@@ -33,8 +33,8 @@ const Main: React.FC = ({ children }) => {
             bg="white"
             boxShadow="2xl"
             borderRadius="sm"
-            padding="1em"
-            minH="70vh"
+            padding={['1em', '1.5em']}
+            minH="50vh"
           >
             {children}
           </Box>

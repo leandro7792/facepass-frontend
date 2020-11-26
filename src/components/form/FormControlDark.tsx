@@ -14,11 +14,13 @@ interface IFormControl {
   label: string
   placeholder?: string | ''
   helperText?: string | ''
+  inputType: 'text' | 'password' | 'email'
 }
 
 const FormControl: React.FC<IFormControl> = ({
   name,
   label,
+  inputType,
   placeholder,
   helperText
 }) => {
@@ -31,7 +33,12 @@ const FormControl: React.FC<IFormControl> = ({
           isInvalid={form.errors[name] && form.touched[name]}
         >
           <FormLabel htmlFor={name}>{label}</FormLabel>
-          <Input {...field} max={20} placeholder={placeholder} />
+          <Input
+            {...field}
+            type={inputType}
+            max={20}
+            placeholder={placeholder}
+          />
 
           <FormHelperText fontStyle="italic" color="whitesmoke">
             {helperText}

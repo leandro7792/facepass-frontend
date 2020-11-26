@@ -63,6 +63,7 @@ const Home: React.FC = () => {
               padding="1em"
               bg="white"
             >
+              {/* <Image src="/images/facepass-logo.png" width={315} height={175} /> */}
               <Text mb={2}>Powered by</Text>
               <Image src="/images/celebro-light.png" width={180} height={150} />
               <Image src="/images/logo-frase.png" width={300} height={90} />
@@ -130,6 +131,7 @@ const Home: React.FC = () => {
                           name="username"
                           label="Usuário"
                           placeholder="meu usuário"
+                          inputType="text"
                           helperText="Informe seu usuário de acesso"
                         />
 
@@ -137,6 +139,7 @@ const Home: React.FC = () => {
                           name="password"
                           label="Senha"
                           placeholder="******"
+                          inputType="password"
                           helperText="Preencha com sua senha"
                         />
 

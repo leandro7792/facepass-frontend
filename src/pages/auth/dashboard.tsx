@@ -1,17 +1,19 @@
 import {
   Heading,
   Skeleton,
-  SkeletonText,
   SimpleGrid,
   Box,
   Text,
-  Center,
-  useToken
+  useToken,
+  Flex
 } from '@chakra-ui/react'
 import Head from 'next/head'
 import Link from 'next/link'
-import { useState } from 'react'
+import Image from 'next/image'
+import { useRef, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import animationData from '../../../public/images/lf20_Sb1gLg.json'
+import lottie from 'lottie-web'
 // import useSWR from 'swr'
 // import api from '../../services/api'
 
@@ -19,12 +21,13 @@ import { motion } from 'framer-motion'
 const MotionBox = motion.custom(Box)
 
 function Feature({ title, desc, href, ...rest }) {
-  const [blue500, gray100] = useToken('colors', ['blue.500', 'gray.100'])
+  const [blue700] = useToken('colors', ['blue.700'])
+
   return (
     <Link href={href}>
       <MotionBox
-        whileHover={{ scale: 1.05, backgroundColor: blue500, color: gray100 }}
-        whileTap={{ scale: 0.95 }}
+        whileHover={{ scale: 1.04 }}
+        whileTap={{ scale: 0.99 }}
         p={5}
         shadow="md"
         minH="12em"
@@ -41,8 +44,22 @@ function Feature({ title, desc, href, ...rest }) {
 
 const Dashboard: React.FC = () => {
   const [isLoaded, setIsLoaded] = useState(false)
+  const refLottie = useRef()
 
-  setTimeout(() => setIsLoaded(true), 2000)
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoaded(true)
+
+      lottie.loadAnimation({
+        container: refLottie.current,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        animationData: animationData
+      })
+    }, 1000)
+  }, [])
+
   // const { data, error } = useSWR('entities/777', fetcher)
 
   // if (error) return <div>failed to load</div>
@@ -54,12 +71,36 @@ const Dashboard: React.FC = () => {
         <title>Dashboard</title>
       </Head>
 
-      <Skeleton isLoaded={isLoaded} mb="0.5em">
+      {/* <Skeleton isLoaded={isLoaded} mb="0.5em">
         <Center>
           <Heading size="lg" mb="0.5em">
             Plataforma de Administração
           </Heading>
         </Center>
+      </Skeleton> */}
+
+      <Skeleton isLoaded={isLoaded}>
+        <SimpleGrid
+          minChildWidth="12em"
+          spacing="1em"
+          mb="1em"
+          gridGap={4}
+          justifyContent="space-around"
+        >
+          <MotionBox
+            whileHover={{ scale: 1.04 }}
+            shadow="md"
+            borderWidth="1px"
+            padding="1.1em"
+            minHeight="12em"
+            display="flex"
+            justifyContent="center"
+          ></MotionBox>
+
+          <MotionBox whileHover={{ scale: 1.04 }} shadow="md" borderWidth="1px">
+            <Box width="250px" height="250px" ref={refLottie} />
+          </MotionBox>
+        </SimpleGrid>
       </Skeleton>
 
       <SimpleGrid minChildWidth="12em" spacing="1em">
@@ -81,12 +122,10 @@ const Dashboard: React.FC = () => {
           <Feature
             title="Associados"
             desc="Verifique o cadastro global de todos associados"
-            href="/auth/associated"
+            href="/auth/associates"
           />
         </Skeleton>
       </SimpleGrid>
-
-      <SkeletonText mt="4" noOfLines={8} spacing="4" isLoaded={isLoaded} />
     </>
   )
 }

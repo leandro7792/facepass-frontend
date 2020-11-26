@@ -5,7 +5,7 @@ interface ICookieAuth {
   jwt: string
 }
 
-const cookieAuthName = 'gf54sJknOfg54gh4sdf0lkPfd6132d456gf9lk'
+export const cookieAuthName = 'authToken'
 
 export const CookieAuth = {
   get: (): ICookieAuth => {
