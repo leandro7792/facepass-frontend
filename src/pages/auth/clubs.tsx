@@ -30,7 +30,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <>
-      <h1>Totens</h1>
+      <h1>clubs</h1>
     </>
   )
 }

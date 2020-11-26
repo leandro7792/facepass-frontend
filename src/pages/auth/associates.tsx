@@ -10,7 +10,7 @@ const Associates: React.FC = () => {
         <title>Momentum - Associados</title>
       </Head>
 
-      <h1>eae</h1>
+      <h1>Associados</h1>
     </>
   )
 }
