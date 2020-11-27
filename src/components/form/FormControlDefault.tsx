@@ -31,7 +31,6 @@ const FormControl: React.FC<IFormControl> = ({
       {({ field, form }) => (
         <CkFormControl
           id={name}
-          py="0.75em"
           isInvalid={form.errors[name] && form.touched[name]}
         >
           <FormLabel htmlFor={name}>{label}</FormLabel>
@@ -40,12 +39,11 @@ const FormControl: React.FC<IFormControl> = ({
             type={inputType}
             max={20}
             placeholder={placeholder}
+            variant="filled"
             disabled={disabled}
           />
 
-          <FormHelperText fontStyle="italic" color="whitesmoke">
-            {helperText}
-          </FormHelperText>
+          <FormHelperText fontStyle="italic">{helperText}</FormHelperText>
 
           <FormErrorMessage>
             <Alert status="error" variant="left-accent">

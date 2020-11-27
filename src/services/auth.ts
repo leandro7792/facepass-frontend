@@ -28,5 +28,5 @@ export const authenticate = async ({
 
 export const logoff = (): void => {
   CookieAuth.remove()
-  Route.push('/')
+  Route.replace('/')
 }

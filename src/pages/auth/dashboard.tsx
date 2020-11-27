@@ -71,22 +71,14 @@ const Dashboard: React.FC = () => {
         <title>Dashboard</title>
       </Head>
 
-      {/* <Skeleton isLoaded={isLoaded} mb="0.5em">
-        <Center>
-          <Heading size="lg" mb="0.5em">
-            Plataforma de Administração
-          </Heading>
-        </Center>
-      </Skeleton> */}
-
-      <Skeleton isLoaded={isLoaded}>
-        <SimpleGrid
-          minChildWidth="12em"
-          spacing="1em"
-          mb="1em"
-          gridGap={4}
-          justifyContent="space-around"
-        >
+      <SimpleGrid
+        minChildWidth="22em"
+        spacing="1em"
+        mb="1em"
+        gridGap={4}
+        justifyContent="space-around"
+      >
+        <Skeleton isLoaded={isLoaded}>
           <MotionBox
             whileHover={{ scale: 1.04 }}
             shadow="md"
@@ -96,14 +88,21 @@ const Dashboard: React.FC = () => {
             display="flex"
             justifyContent="center"
           ></MotionBox>
+        </Skeleton>
 
-          <MotionBox whileHover={{ scale: 1.04 }} shadow="md" borderWidth="1px">
-            <Box width="250px" height="250px" ref={refLottie} />
+        <Skeleton isLoaded={isLoaded}>
+          <MotionBox
+            padding="1.1em"
+            whileHover={{ scale: 1.04 }}
+            shadow="md"
+            borderWidth="1px"
+          >
+            <Box width="160px" height="160px" ref={refLottie} />
           </MotionBox>
-        </SimpleGrid>
-      </Skeleton>
+        </Skeleton>
+      </SimpleGrid>
 
-      <SimpleGrid minChildWidth="12em" spacing="1em">
+      <SimpleGrid spacing="1em" columns={2} minChildWidth="18em">
         <Skeleton isLoaded={isLoaded}>
           <Feature
             title="Clubes"

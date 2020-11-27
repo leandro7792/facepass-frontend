@@ -133,6 +133,7 @@ const Home: React.FC = () => {
                           placeholder="meu usuário"
                           inputType="text"
                           helperText="Informe seu usuário de acesso"
+                          disabled={isSubmitting}
                         />
 
                         <FrmControl
@@ -141,11 +142,11 @@ const Home: React.FC = () => {
                           placeholder="******"
                           inputType="password"
                           helperText="Preencha com sua senha"
+                          disabled={isSubmitting}
                         />
 
                         <Stack>
                           <Button
-                            minW="120px"
                             colorScheme="green"
                             isLoading={isSubmitting}
                             type="submit"
