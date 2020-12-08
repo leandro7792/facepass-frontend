@@ -97,7 +97,7 @@ const Home: React.FC = () => {
                         await authenticate({ username, password })
 
                         toast({
-                          position: 'top-right',
+                          position: 'top',
                           title: `Bem vindo ${username}`,
                           status: 'success',
                           duration: 3000,

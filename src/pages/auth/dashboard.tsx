@@ -1,15 +1,6 @@
-import {
-  Heading,
-  Skeleton,
-  SimpleGrid,
-  Box,
-  Text,
-  useToken,
-  Flex
-} from '@chakra-ui/react'
+import { Heading, Skeleton, SimpleGrid, Box, Text } from '@chakra-ui/react'
 import Head from 'next/head'
 import Link from 'next/link'
-import Image from 'next/image'
 import { useRef, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import animationData from '../../../public/images/lf20_Sb1gLg.json'
@@ -21,8 +12,6 @@ import lottie from 'lottie-web'
 const MotionBox = motion.custom(Box)
 
 function Feature({ title, desc, href, ...rest }) {
-  const [blue700] = useToken('colors', ['blue.700'])
-
   return (
     <Link href={href}>
       <MotionBox

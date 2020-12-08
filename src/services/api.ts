@@ -23,7 +23,7 @@ axios.interceptors.request.use(
 
     config.baseURL =
       process.env.NODE_ENV === 'production'
-        ? 'https://momentum.letmein.com.br/facepass/'
+        ? 'https://momentum.letmein.com.br/facepass'
         : 'http://192.168.0.168:3334'
 
     return config
